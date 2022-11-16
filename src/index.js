@@ -17,8 +17,15 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-    console.log(socket.id);
-    console.log('a user connected');
+    console.log("Socket ID: " + socket.id);
+
+    socket.on('message', (msg) => {
+        socket.broadcast.emit('message', {
+            body: msg,
+            from: socket.id
+        });
+    });
+
 });
 
 app.use(morgan("dev"));
